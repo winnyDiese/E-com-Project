@@ -1,47 +1,46 @@
 
 
 import { useEffect, useState } from "react"
+import Product from "./components/Product"
+import { initMongoose } from "./lib/mongoose"
 
 
 const Home = ({products=[]})=>{
 
-
-
+  const [phrase, setPhrase] = useState('')
   const showProducts = products.products
   
   const categoriesNames = [...new Set(showProducts.map(p=> p.category))]
-  // console.log({categoriesNames})
+
+  let prod 
+  if(phrase){
+    prod = showProducts.filter(p => p.name.toLowerCase().includes(phrase))
+  }else
+    prod = showProducts
+
+
 
   return (
    <div className='p-5'>
+    <input value={phrase} onChange={e => setPhrase(e.target.value)} type="text" placeholder="Search for products..." className="bg-gray-100 w-full py-2 px-4 rounded-xl" />
     <div>
-
       {categoriesNames.map(categoriesName => (
         <div key={categoriesName}>
-          <h1 className="text-2xl uppercase capitalize">{categoriesName}</h1>
-          {showProducts.filter(p => p.category === categoriesName).map(product => (
-            <div>{product.name}</div>
-          )) }
+
+          {prod.find(p => p.category === categoriesName) && (
+            <div>
+              <h1 className="text-2xl py-5 uppercase capitalize">{categoriesName}</h1>
+              <div className="flex -mx-5 overflow-x-scroll snap-x scrollbar-hide">
+                {prod.filter(p => p.category === categoriesName).map(productInfo => (
+                  <div key={productInfo._id} className="px-5 snap-start ">
+                    <Product {...productInfo} />
+                  </div>
+                )) }
+              </div>
+            </div>
+          )}
         </div>
       ))}
-
-      <h2 className="text-2xl">Mobiles</h2> 
-      <div className='py-4'>
-        <div className='w-64'>
-          <div className='bg-blue-100 p-5 rounded-xl'>
-            <img src='/products/none.png' alt='' style={{heigth: "40px", width: "200px"}}/>
-          </div>
-          <div className='mt-2 '>
-            <h3 className='font-bold text-lg'>Iphone 14 Pro</h3>
-          </div>
-          <p className='text-sm mt-1 leading-4'>lorem  noiuoyu bbuy uybuy uyb uybuy uybuyb uybuy buyboyuboyub uybuybuybuyb oyubouyb ouyboyuboyub oyboyuboyub oyubouyb ouyboyub yboy lorem  </p>
-          
-          <div className='flex mt-1'>
-            <div className='text-2xl font-bold grow'>$899</div>
-            <button className='bg-emerald-400 text-white py-1 px-3 rounded-xl'>+</button>
-          </div>
-        </div>
-      </div>
     </div>
    </div>
   )
@@ -51,7 +50,11 @@ const Home = ({products=[]})=>{
 export default Home
 
 
+
 export async function getServerSideProps(){
+
+  await initMongoose()
+  
   const response = await fetch("http://localhost:3000/api/products")
   const products = await response.json()
 
