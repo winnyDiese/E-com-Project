@@ -1,6 +1,8 @@
 
 
 import { useEffect, useState } from "react"
+import Footer from "./components/Footer"
+import Layout from "./components/Layout"
 import Product from "./components/Product"
 import { initMongoose } from "./lib/mongoose"
 
@@ -42,6 +44,10 @@ const Home = ({products=[]})=>{
         </div>
       ))}
     </div>
+    
+    <Layout />
+    {/* <Footer /> */}
+
    </div>
   )
 }
@@ -54,13 +60,14 @@ export default Home
 export async function getServerSideProps(){
 
   await initMongoose()
-  
+
   const response = await fetch("http://localhost:3000/api/products")
   const products = await response.json()
 
   return {
     props : {
       products,
+      // products: JSON.parser(JSON.stringify(products))
 
     }
   }
