@@ -1,28 +1,36 @@
-
+// import Head from 'next/head'
+// import Image from 'next/image'
+// import { Inter } from 'next/font/google'
+// import styles from '@/styles/Orignal.module.css'
 
 import { useEffect, useState } from "react"
 
+// const inter = Inter({ subsets: ['latin'] })
 
-const Home = ({products=[]})=>{
+const Orignal = ()=>{
 
+  // const [productsInfo, setProductsInfo] = useState([])
 
+  // useEffect(()=>{
+  //   fetch('/api/products')
+  //   .then(res => res.json())
+  //   .then(json => setProductsInfo(json))
+  // },[])
 
-  const showProducts = products.products
-  
-  const categoriesNames = [...new Set(showProducts.map(p=> p.category))]
+  // console.log(productsInfo)
+
+  // const categoriesNames = await productsInfo.map(p => p.category)
   // console.log({categoriesNames})
+
+  // const categoriesNames = new Set(productsInfo.map( p => p.category))
+  // console.log(categoriesNames)
 
   return (
    <div className='p-5'>
     <div>
 
-      {categoriesNames.map(categoriesName => (
-        <div key={categoriesName}>
-          <h1 className="text-2xl uppercase capitalize">{categoriesName}</h1>
-          {showProducts.filter(p => p.category === categoriesName).map(product => (
-            <div>{product.name}</div>
-          )) }
-        </div>
+      {products.map(p => (
+        <h2 className="text-2xl">{p.category}</h2>
       ))}
 
       <h2 className="text-2xl">Mobiles</h2> 
@@ -47,19 +55,3 @@ const Home = ({products=[]})=>{
   )
 }
 
-
-export default Home
-
-
-export async function getServerSideProps(){
-  const response = await fetch("http://localhost:3000/api/products")
-  const products = await response.json()
-
-  return {
-    props : {
-      products,
-
-    }
-  }
-
-}

@@ -5,24 +5,17 @@ import { useEffect, useState } from "react"
 
 const Home = ({products=[]})=>{
 
+  
 
 
   const showProducts = products.products
-  
-  const categoriesNames = [...new Set(showProducts.map(p=> p.category))]
-  // console.log({categoriesNames})
 
   return (
    <div className='p-5'>
     <div>
 
-      {categoriesNames.map(categoriesName => (
-        <div key={categoriesName}>
-          <h1 className="text-2xl uppercase capitalize">{categoriesName}</h1>
-          {showProducts.filter(p => p.category === categoriesName).map(product => (
-            <div>{product.name}</div>
-          )) }
-        </div>
+      {showProducts.map(p => (
+        <h2 className="text-2xl">{p.category}</h2>
       ))}
 
       <h2 className="text-2xl">Mobiles</h2> 

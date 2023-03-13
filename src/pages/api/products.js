@@ -3,5 +3,6 @@ import Product from "../models/product";
 
 export default async function handle(req, res){
     await initMongoose()
-    return res.json(await Product.find())
+    const products = await Product.find()
+    return res.json({products})
 }
