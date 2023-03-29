@@ -10,6 +10,9 @@ import { initMongoose } from "./lib/mongoose"
 const Home = ({products})=>{
 
   const [phrase, setPhrase] = useState('')
+  
+  // Extraction du produit, product is an object => [object][object],
+  // Alors on l'extrait
   const showProducts = products.products
   
   const categoriesNames = [...new Set(showProducts.map(p=> p.category))]

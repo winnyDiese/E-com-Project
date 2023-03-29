@@ -1,3 +1,4 @@
+import Product from "../models/product";
 import { initMongoose } from "../lib/mongoose";
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -10,9 +11,11 @@ export default async function handler(req,res){
         return
     }
 
+
     const productIds = req.body.products.split(',')
     const uniqIds = [...new Set(productIds)]
-    const products = await Product.find({_id:{$in:uniqIds}}).exec()
+    // const products = await Product.find({_id:{$in:uniqIds}}).exec()
+    const products = await Product.find({_id:{$in:uniqIds}})
     res.json(products)
     return
 
