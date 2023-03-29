@@ -7,7 +7,7 @@ import Product from "./components/Product"
 import { initMongoose } from "./lib/mongoose"
 
 
-const Home = ({products=[]})=>{
+const Home = ({products})=>{
 
   const [phrase, setPhrase] = useState('')
   const showProducts = products.products
